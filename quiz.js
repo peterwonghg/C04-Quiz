@@ -88,7 +88,7 @@ function countDownTimer(){
 
       alert("Quiz Over !!! Retake Quiz Again");
       // Redirect to Home Page when the OK button is pressed at the display box      
-      return window.location.assign('./index.html')    
+
     };
 
   // Define the setInterval Interval at 1 second
