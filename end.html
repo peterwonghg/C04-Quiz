@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Encompasing Container -->
+  <section class="container">
+    <!-- Top Bar Section -->
+    <section>
+      <div id="topBar">
+       <div class="topBar-item">
+          <h1 id="finalScore">0</h1>
+          <form class="end-form-container">
+            <h2 id="end-text">All Done!</h2>
+            <input type="text" name="username" placeholder="Enter Initials">
+            <a href="./highscores.html" class="btn id="saveScoreBtn" type="submit" onclick="saveHighScore(event)" disabled">Submit</a>
+          </form>
+          
+        </div>
+      </div>
+    </section>
+  </section>    
+</body>
+</html>

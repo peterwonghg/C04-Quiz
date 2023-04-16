@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+  <!-- Encompasing Container -->
+  <section class="container">
+    <!-- Top Bar Section -->
+    <section>
+      <div id="topBar">
+       <div class="topBar-item">
+          <a href="./highscores.html" id="highscores-btn" class="btn">View High Scores</a>
+        </div>
+      <div class="topBar-item">
+          <p class="topBar-p">
+              Score
+          </p>
+          <h1 class="topBar-main-text" id="score">
+              0
+          </h1>
+        </div>
+      </div>
+    </section>
+      <!-- Main Section -->
+    <section>
+      <h1 id="question">Question</h1>
+      <div class="choice-container">
+          <p class="choice-prefix">A.</p>
+          <p class="choice-text" data-number="1">Choice 1</p>
+      </div>
+      <div class="choice-container">
+          <p class="choice-prefix">B.</p>
+          <p class="choice-text" data-number="2">Choice 2</p>
+      </div>
+      <div class="choice-container">
+          <p class="choice-prefix">C.</p>
+          <p class="choice-text" data-number="3">Choice 3</p>
+      </div>
+      <div class="choice-container">
+          <p class="choice-prefix">D.</p>
+          <p class="choice-text" data-number="4">Choice 4</p>
+      </div>
+    </section>
+  </section>
+  <script src="./quiz.js"></script>    
+</body>
+</html>
