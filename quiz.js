@@ -85,10 +85,12 @@ function countDownTimer(){
       // clearInterval method cancels the repeating action of the 'timer'
       clearInterval(timer);
       // alert method commands the browser to display Quiz Over message as the quiz ended
-      // This aso allows the coninuation of practicing the remainder of the questions without the timer running when the OK button is pressed at the display box
-      alert("Quiz Over !!! Complete the rest of the remaining question(s) for practice and retake quiz again");
+
+      alert("Quiz Over !!! Retake Quiz Again");
+      // Redirect to Home Page when the OK button is pressed at the display box      
+      return window.location.assign('./index.html')    
     };
-  
+
   // Define the setInterval Interval at 1 second
   }, 1000);
 };
