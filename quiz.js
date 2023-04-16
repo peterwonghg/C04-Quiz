@@ -80,12 +80,13 @@ function countDownTimer(){
     // Display the content of the element(s) including the script and the style through the textContent property which will be the score
     timerID.textContent = score;
 
-    // When the timer runs out (less than or equal to 0 seconds left)
+    // When the timer runs out (less than or equal to 0 seconds left) but you have not completed the Quiz
     if(score <= 0) {
-      // clearInterval method cancels the the repeating action of the 'timer'
+      // clearInterval method cancels the repeating action of the 'timer'
       clearInterval(timer);
       // alert method commands the browser to display Quiz Over message as the quiz ended
-      alert("Quiz Over -- The End !!! Run through the rest of the remaining question at your leisure for practice but your final score will not be recorded as you have not completed the quiz in the allocated time.");
+      // This aso allows the coninuation of practicing the remainder of the questions without the timer running when the OK button is pressed at the display box
+      alert("Quiz Over !!! Complete the rest of the remaining question(s) for practice and retake quiz again");
     };
   
   // Define the setInterval Interval at 1 second
@@ -93,13 +94,13 @@ function countDownTimer(){
 };
 
 
-// Creating the startQuiz function to initiate quiz
+// Creating the startQuiz function to initiate the quiz
 function startQuiz() {
   // Calling the countDownTimer function to commence counting down
   countDownTimer();
-  // Determine the number of total available questions
+  // Using the spread operator to allow an iterable questions array to be expanded wherever it is placed
   availableQuestions = [...questions]
-  // Calling the getNewQuestion function to retrive a new question
+  // Calling the getNewQuestion function to retrive a question or a new question
   getNewQuestion()
 }
 
@@ -107,222 +108,79 @@ function startQuiz() {
 function getNewQuestion() {
   // When there is no more new questions available launch the End Page using the assign static method
   if(availableQuestions.length === 0) {
+    // setItem() method saves the score value called mostRecentScore in the localStorage
+    localStorage.setItem('mostRecentScore', score)    
+    // The return statement ends the function execution and redirect to the end.html page by using assign to copy all the links at the location interface
     return window.location.assign('./end.html')
   }
-  // Selecting the array of question randomly using the Math.floor and Math.ramdom displaying the currentQuestion content through innerText
+ 
+  // Declaring questionIndex as a constant whether it is 0, 1, 2, 3 or 4 representing the 5 questions in the questions array
+  // Math.random generates a number between 0 and less than 1
+  // This random number is multiplied by the unanswered questions determined by availableQuestions.length
+  // Math.floor then rounds down the result and return an integer between 0-4 giving the questionIndex
   const questionsIndex = Math.floor(Math.random() * availableQuestions.length)
+  // Retrieve the array of the currentQuestion chosen through availableQuestions[questionIndex] where questionIndex(n) = question(n+1)
   currentQuestion = availableQuestions[questionsIndex]
+  // Display the text content of the question in the currentQuestion chosen through innerText property
   question.innerText = currentQuestion.question
-  // Using the forEach Method to extract the text content of multiple choice 1-4 read by the dataset fromm the HTML element in relation the respective currentQuestion displaying using innerText
+
+
+  // Using the forEach to execute the choice function once for each array element
   choices.forEach(function(choice) {
+    // Generates a number for each loop the choice function is executed
     const number = choice.dataset['number']
+    // Add this number to 'choice' to display the text content of the choices in the currentQuestion chosen through innerText property eg choice1, choice2, choice3 and choice4
     choice.innerText = currentQuestion['choice' + number]
 })
 
+  // Remove 1 element from availableQuestions identified by the questionsIndex ie remove the question that has currently already been asked
   availableQuestions.splice(questionsIndex, 1)
 
+  // Accepting the correct answer
   acceptingAnswers = true
 }
 
-
+  // Using the forEach to execute the choice function once for the array element that is chosen
   choices.forEach(function(choice) {
+    // The addEventListener adds the function in this case the click of the mouse on an answer choice which implements the EventListener 
     choice.addEventListener('click', function(e) {
+      // If the answer selected is incorrect by using ! to invert the Boolean expression then return acceptingAnswers as False (incorrect)
       if(!acceptingAnswers) return
-
       acceptingAnswers = false
+      
+      // Declaring the target property of the event to be the selectedChoice
       const selectedChoice = e.target
+      // Declaring the selectedAnswer to be the number from the selectedChoice read through dataset property
       const selectedAnswer = selectedChoice.dataset['number']
-
+      // Declaring the classToApply as the same as the selectedAnswer
+      // Class applied is a GREEN background if the answer is correct 
+      // Class applied is a RED background if the answer is incorrect
+      // The conditional ternary operator with the selectedAnswer (correct answer) as the condition foloowed by ? and executing the class correct 
+      // Otherwise (incorrect answer) executing the class incorrect
+      // The conditional ternary operator used is equivalent to If...else statement
       let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' :
       'incorrect'
    
+      // if classToApply aka selectedAnswer is incorrect
       if(classToApply === 'incorrect') {
+      // Score (or timer) is reduced by 10 seconds as per the quiz rule
       score = score - 10;
       }
 
+      // Adding classToApply (correct/incorrect class) onto parentElement.classList property
       selectedChoice.parentElement.classList.add(classToApply)
 
+      // Execute a function after a specified time through setTimeOut
+      // Time lapse (0.5 s) between the end of the previous question and the presentation of the next question be 0.5 second
       setTimeout(() => {
+        // Removing/Reseting classToApply (correct/incorrect class) onto parentElement.classList property
         selectedChoice.parentElement.classList.remove(classToApply)
+        // Execute the getNewQuestion() function to get annother/next question
         getNewQuestion()
-      
-        }, 100)
+        // Define time lapse of 0.5 second
+        }, 500)
     })
   })
 
+// Execute the startQuiz function
 startQuiz()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const question = document.querySelector('#question');
-// const choices = Array.from(document.querySelectorAll('.choice-text'));
-// const scoreText = document.querySelector('#score');
-
-
-
-// let currentQuestion = {};
-// let acceptingAnswers = true;
-// let score = 0;
-// let availableQuestions = [];
-
-// let questions =[
-//   {
-//     question: 'Commonly used data types DO Not include:',
-//     choice1: 'strings',
-//     choice2: 'booleans',
-//     choice3: 'alerts',
-//     choice4: 'numbers',
-//     answer: 3,
-//   },
-//   {
-//     question: 'The condition in an if / else statement is enclosed with _____.',
-//     choice1: 'quotes',
-//     choice2: 'curly brackets',
-//     choice3: 'parenthesis',
-//     choice4: 'square brackets',
-//     answer: 3,
-//   },
-//   {
-//     question: 'Arrays in JavaScript can be used to store _____.',
-//     choice1: 'number and strings',
-//     choice2: 'other arrays',
-//     choice3: 'booleans',
-//     choice4: 'all of the above',
-//     answer: 4,
-//   },
-//   {
-//     question: 'String values must be enclosed within _____ when being assinged to variables.',
-//     choice1: 'comma',
-//     choice2: 'curly brackets',
-//     choice3: 'quotes',
-//     choice4: 'parenthesis',
-//     answer: 3,
-//   },
-//   {
-//     question: 'A very useful tool used during development and debugging for printing content to the debugger is:',
-//     choice1: 'JavaScript',
-//     choice2: 'terminal/bash',
-//     choice3: 'for loops',
-//     choice4: 'console.log',
-//     answer: 4,
-//   },
-// ]
-
-
-
-
-// const score_points = 100
-// const max_questions = 5
-
-// startQuiz = () => {
-//   score = 0
-//   availableQuestions = [...questions]
-//   getNewQuestion()
-// }
-
-// getNewQuestion = () => {
-
-//   if(availableQuestions.length === 0) {
-//     localStorage.setItem('mostRecentScore', score)
-//     return window.location.assign('./end.html')
-//   }
-
-//   const questionsIndex = Math.floor(Math.random() * availableQuestions.length)
-//   currentQuestion = availableQuestions[questionsIndex]
-//   question.innerText = currentQuestion.question
-
-  
-//   choices.forEach(choice => {
-//     const number = choice.dataset['number']
-//     choice.innerText = currentQuestion['choice' + number]
-// })
-
-//   availableQuestions.splice(questionsIndex, 1)
-
-//   acceptingAnswers = true
-// }
-
-// choices.forEach(choice => {
-//   choice.addEventListener('click', e => {
-//     if(!acceptingAnswers) return
-
-//     acceptingAnswers = false
-//     const selectedChoice = e.target
-//     const selectedAnswer = selectedChoice.dataset['number']
-
-//     let classToApply = selectedAnswer == currentQuestion.answer ? 'correct' :
-//     'incorrect'
-   
-//     if(classToApply === 'correct') {
-//         incrementScore(score_points)
-//       }
-
-//       selectedChoice.parentElement.classList.add(classToApply)
-
-//       setTimeout(() => {
-//         selectedChoice.parentElement.classList.remove(classToApply)
-//         getNewQuestion()
-      
-//       }, 1000)
-//   })
-// })
-
-// incrementScore = num => {
-//   score +=num
-//   scoreText.innerText = score
-// }
-
-// startQuiz()
