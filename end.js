@@ -10,7 +10,7 @@ const max_high_scores = 10
 finalScore.innerText = mostRecentScore
 
 if(mostRecentScore <=0 ) {
-  window.location.assign('/home.html')
+  window.location.assign('/index.html')
 }
 
 username.addEventListener('keyup', function() {
